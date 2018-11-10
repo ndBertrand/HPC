@@ -1,0 +1,15 @@
+\section{le HDFS}
+HDFS (Hadoop Distributed File System) est le système de fichiers distribué d’Hadoop. Il a été écrit en Java et développé par Apache. Il s’agit en réalité d’une implémentation du GFS (Google File System) créé par Google. On retrouve les mêmes concepts présents sur les systèmes de fichiers classiques comme ext2 (Linux) ou FAT (Windows) à savoir la notion de blocs (la plus petite unité de stockage pouvant être gérée), les métadonnées, les droits et l’arborescence des répertoires. Par contre le HDFS ne fournit pas de mécanisme de cache (table de référencé du système de fichier, propre à chaque nœud) que l’on retrouve dans ces systèmes de fichiers classique.
+
+HDFS a été conçu pour gérer et stocker de très grands volumes de données, en permettant un accès continu de celles-ci sur le cluster. Le principe de HDFS repose sur la faite de diviser toutes les données en blocs et chaque bloc est répliqué sur différents nœuds. Ça facilite ainsi la détection des défauts et une récupération rapide et automatique, ce qui rend le cluster plus tolérant aux pannes. HDFS ne prends pas en charge les la mise à jour des fichiers et ne supporte donc que les opérations de lecture d’ajouts et de suppression. Une fois le fichier créé et ferme, il n’a pas besoin d’être changé. Cette hypothèse assure la cohérence et permet un accès aux données en haut débit. Sa politique est de privilégier est le traitement par lots plutôt qu’une utilisation interactive.
+
+
+L’architecture maitre esclave représenté bien le concept du HDFS. C’est-à-dire qu’il existe un Namenode qui :
+\begin{itemize}
+    \item supervise l’espace de nommage
+    \item reçoit les requêtes de consultation
+    \item gère le système de fichiers et conserve toutes les métadonnées dans le RAM. 
+\end{itemize}
+et plusieurs Datanodes qui gère un espace de stockage en effectuant les opérations de création de réplication ou de suppression de fichiers.
+
+Ces fichiers sont divises en plusieurs blocs de taille fixe(64 Mo) et sont stocké dans les dataNodes
